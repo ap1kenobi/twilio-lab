@@ -1,3 +1,5 @@
+const serviceBaseUrl = process.env.TWILIO_NGROK_URL;
+
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
@@ -54,7 +56,7 @@ app.all('/assignment', bodyParser.raw(), (req, res) => {
         instruction: 'call',
         to: '+12024602880',
         from: '+14843460557',
-        url: 'http://95493e07.ngrok.io/answer',
+        url: `${serviceBaseUrl}/answer`,
         accept: 'true'
     }));
 });
