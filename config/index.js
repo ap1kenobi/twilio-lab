@@ -8,14 +8,15 @@ const serviceVoiceUrl = `${serviceBaseUrl}/voice`;
 const serviceEventCallbackUrl = `${serviceBaseUrl}/callback`;
 const serviceAssignmentCallbackUrl = `${serviceBaseUrl}/assignment`;
 
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const numberSearchValue = process.env.TWILIO_NUMBER_SEARCH_VALUE;
 const taskrouterWorkspaceFriendlyName = 'twilio-task-router-demo';
 const taskrouterTaskQueueFriendlyName = 'twilio-task-router-demo-task-queue';
 const taskrouterWorkflowFriendlyName = 'twilio-task-router-demo-workflow';
-const twilio = require('twilio');
-const client = twilio(accountSid, authToken);
+
+const numberSearchValue = process.env.TWILIO_NUMBER_SEARCH_VALUE;
+
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = require('twilio')(accountSid, authToken);
 
 const config = {
     activities: {},
@@ -84,6 +85,7 @@ update(client.incomingPhoneNumbers, number => {
     // create worker
     return create(workspace.workers(), byFriendlyName('worker-1'), {
         friendlyName: 'worker-1',
+        activitySid: config.activities['Idle'].sid,
         attributes: '{}'
     }).then(() => workspace);
 }).catch(err => {
